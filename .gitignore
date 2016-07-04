@@ -25,3 +25,6 @@ target
 /.project
 /.settings
 /RUNNING_PID
+/.sbtserver
+/bin
+/project
