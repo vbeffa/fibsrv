@@ -24,7 +24,29 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to the Fibonacci Server.")
+      contentAsString(home) must include ("Welcome to the Fibonacci Server")
+    }
+
+  }
+
+  "FibController" should {
+
+    "return Fibonacci numbers" in {
+      // http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html
+      contentAsString(route(app, FakeRequest(GET, "/fib/5")).get) mustBe "5"
+      contentAsString(route(app, FakeRequest(GET, "/fib/15")).get) mustBe "610"
+      contentAsString(route(app, FakeRequest(GET, "/fib/25")).get) mustBe "75025"
+    }
+
+    "return Fibonacci lists" in {
+      contentAsString(route(app, FakeRequest(GET, "/fib_list/5")).get) mustBe "[0, 1, 1, 2, 3, 5]"
+      contentAsString(route(app, FakeRequest(GET, "/fib_list/10")).get) mustBe "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]"
+    }
+
+    "return cumulative Fibonacci lists" in {
+      contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/1")).get) mustBe "[\n  [0],\n  [0, 1]\n]"
+      contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/2")).get) mustBe "[\n  [0],\n  [0, 1],\n  [0, 1, 1]\n]"
+      contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/3")).get) mustBe "[\n  [0],\n  [0, 1],\n  [0, 1, 1],\n  [0, 1, 1, 2]\n]"
     }
 
   }
