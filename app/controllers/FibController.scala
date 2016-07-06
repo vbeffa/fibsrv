@@ -10,14 +10,15 @@ import services.FibSrv
 class FibController @Inject() (fibSrv: FibSrv) extends Controller {
 
   def fib(n: Int) = Action {
-    Ok("fib(" + n + ") = " + fibSrv.computeFib(n))
+    Ok("fibonacci(" + n + ") = " + fibSrv.fib(n))
   }
 
   def fib_list(n: Int) = Action {
-    var fibList =
-      for (i <- 0 to n) yield
-        fibSrv.computeFib(i)
-    Ok("fib list(" + n + ") = " + fibList)
+    Ok("fibonacci (" + n + ") list = " + fibSrv.fibList(n))
+  }
+
+  def cum_fib_list(n: Int) = Action {
+    Ok("cumulative fibonacci (" + n + ") lists = " + fibSrv.cumFibList(n))
   }
 
 }
