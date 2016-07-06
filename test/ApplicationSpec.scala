@@ -1,17 +1,17 @@
 import org.scalatestplus.play._
-import play.api.test._
 import play.api.test.Helpers._
+import play.api.test._
 
 /**
- * Add your spec here.
- * You can mock out a whole application including requests, plugins etc.
- * For more information, consult the wiki.
- */
+  * Add your spec here.
+  * You can mock out a whole application including requests, plugins etc.
+  * For more information, consult the wiki.
+  */
 class ApplicationSpec extends PlaySpec with OneAppPerTest {
 
   "Routes" should {
 
-    "send 404 on a bad request" in  {
+    "send 404 on a bad request" in {
       route(app, FakeRequest(GET, "/boum")).map(status(_)) mustBe Some(NOT_FOUND)
     }
 
@@ -24,7 +24,7 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to the Fibonacci Server")
+      contentAsString(home) must include("Welcome to the Fibonacci Server")
     }
 
   }
@@ -38,15 +38,33 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
       contentAsString(route(app, FakeRequest(GET, "/fib/25")).get) mustBe "75025"
     }
 
+    "return 400 on negative input (Fibonacci numbers)" in {
+      val result = route(app, FakeRequest(GET, "/fib/-5"))
+      result.map(status(_)) mustBe Some(BAD_REQUEST)
+      contentAsString(result.get) mustBe "input cannot be negative"
+    }
+
     "return Fibonacci lists" in {
       contentAsString(route(app, FakeRequest(GET, "/fib_list/5")).get) mustBe "[0, 1, 1, 2, 3, 5]"
       contentAsString(route(app, FakeRequest(GET, "/fib_list/10")).get) mustBe "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]"
+    }
+
+    "return 400 on negative input (Fibonacci lists)" in {
+      val result = route(app, FakeRequest(GET, "/fib_list/-5"))
+      result.map(status(_)) mustBe Some(BAD_REQUEST)
+      contentAsString(result.get) mustBe "input cannot be negative"
     }
 
     "return cumulative Fibonacci lists" in {
       contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/1")).get) mustBe "[\n  [0],\n  [0, 1]\n]"
       contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/2")).get) mustBe "[\n  [0],\n  [0, 1],\n  [0, 1, 1]\n]"
       contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/3")).get) mustBe "[\n  [0],\n  [0, 1],\n  [0, 1, 1],\n  [0, 1, 1, 2]\n]"
+    }
+
+    "return 400 on negative input (cumulative Fibonacci lists)" in {
+      val result = route(app, FakeRequest(GET, "/cum_fib_list/-5"))
+      result.map(status(_)) mustBe Some(BAD_REQUEST)
+      contentAsString(result.get) mustBe "input cannot be negative"
     }
 
   }

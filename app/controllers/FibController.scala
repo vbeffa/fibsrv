@@ -2,29 +2,42 @@ package controllers
 
 import javax.inject._
 
-import play.api.http.{ContentTypeOf, Writeable}
 import play.api.mvc._
-import play.mvc.Http
 import services.FibSrv
 
 @Singleton
-class FibController @Inject() (fibSrv: FibSrv) extends Controller {
+class FibController @Inject()(fibSrv: FibSrv) extends Controller {
 
   def index = Action {
     Ok(views.html.fib("Welcome to the Fibonacci Server."))
   }
 
   def fib(n: Int) = Action {
-    Ok(fibSrv.fib(n).toString)
+    try {
+      Ok(fibSrv.fib(n).toString)
+    } catch {
+      case e: IllegalArgumentException => BadRequest("input cannot be negative")
+      case _ => InternalServerError
+    }
   }
 
   def fib_list(n: Int) = Action {
-    Ok("[" + fibSrv.fibList(n).mkString(", ") + "]")
+    try {
+      Ok("[" + fibSrv.fibList(n).mkString(", ") + "]")
+    } catch {
+      case e: IllegalArgumentException => BadRequest("input cannot be negative")
+      case _ => InternalServerError
+    }
   }
 
   def cum_fib_list(n: Int) = Action {
-    Ok("[\n" +
-      fibSrv.cumFibList(n).map(inner => "  [" + inner.mkString(", ") + "]").mkString(",\n") + "\n]")
+    try {
+      Ok("[\n" +
+        fibSrv.cumFibList(n).map(inner => "  [" + inner.mkString(", ") + "]").mkString(",\n") + "\n]")
+    } catch {
+      case e: IllegalArgumentException => BadRequest("input cannot be negative")
+      case _ => InternalServerError
+    }
   }
 
 }
