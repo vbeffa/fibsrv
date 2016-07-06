@@ -9,7 +9,7 @@ trait FibSrv {
 }
 
 @Singleton
-class AtomicFibSrv extends FibSrv {
+class Fibonacci extends FibSrv {
   var fibs: Map[Int, BigInt] = Map(0 -> 0, 1 -> 1)
   var fibLists: Map[Int, List[BigInt]] = Map(0 -> List(0), 1 -> List(0, 1))
   var cumFibLists: Map[Int, List[List[BigInt]]] = Map(0 -> List(List(0)), 1 -> List(List(0), List(0, 1)))
