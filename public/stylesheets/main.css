@@ -1,22 +1,38 @@
 body {
     font-family: "Courier";
-    background-color: #0059b3;
+    background-color: #009900;
     color: white;
+    padding: 0px 20px 0px 20px;
 }
 
 table {
-    border: 1px solid white;
+    border: none;
     border-spacing: 10px;
 }
 
-td {
+#main {
+    overflow: auto;
+    width: 100%;
+}
 
+.line {
+    white-space: nowrap;
+}
+
+.fibonacci {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.fibonacci-list {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .button {
-    background-color: #0080ff;
+    background-color: #009900;
     width: 100px;
-    border: none;
+    border: 1px solid white;
     color: white;
     height: 28px;
     text-align: center;
@@ -27,19 +43,27 @@ td {
 input[type="text"] {
     display: block;
     margin: 0;
-    height: 20px;
+    height: 25px;
+    background-color: #009900;
+    color: white;
+    border: none;
 }
 
 textarea {
     display: block;
     margin: 0;
-    height: 200px;
+    height: 400px;
+    background-color: #009900;
+    color: white;
+    border: none;
 }
 
 #fib_output {
-    width: 396px;
+    width: 600px;
+    margin-left: 10px;
 }
 
 #fib_list_output {
-    width: 400px;
+    width: 600px;
+    margin-left: 10px;
 }

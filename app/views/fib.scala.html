@@ -12,12 +12,16 @@
 @main("Welcome to the Fibonacci Server") {
 
 <script language="JavaScript">
-    function goFib() {
-        goFibHelper("fib")
+    function goFib(event, text) {
+        if (event && event.keyCode == 13 && text != "") {
+            goFibHelper("fib")
+        }
     }
 
-    function goFibList() {
-        goFibHelper("fib_list")
+    function goFibList(event, text) {
+        if (event && event.keyCode == 13 && text != "") {
+            goFibHelper("fib_list")
+        }
     }
 
     function goFibHelper(op) {
@@ -34,34 +38,20 @@
     }
 </script>
 
-<h1>Welcome to the Fibonacci Server</h1>
+<h1 align="center">Welcome to the Fibonacci Server</h1>
 
-<table>
-    <tr valign="middle">
-        <td align="right">Fibonacci:</td>
-        <td><input type="text" id="fib_input"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><font size="-2">Min 0, Max 2<sup>19</sup> (262144)</font></td>
-    </tr>
-    <tr align="right" valign="top">
-        <td><button class="button" onclick="goFib()">Go Fib!</button></td>
-        <td><input type="text" id="fib_output" readonly="readonly"></td>
-    </tr>
-
-    <tr valign="middle">
-        <td>Fibonacci list:</td>
-        <td><input type="text" id="fib_list_input"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><font size="-2">Min 0, Max 2<sup>12</sup> (4096)</font></td>
-    </tr>
-    <tr align="right" valign="top">
-        <td><button class="button" onclick="goFibList()">Go Fib List!</button></td>
-        <td><textarea id="fib_list_output" readonly="readonly"></textarea></td>
-    </tr>
-</table>
+<div id="main">
+    <div class="line">
+        <span class="fibonacci" style="width: 200px; text-align: right;">fibonacci(n):</span>
+        <span class="fibonacci"><input type="text" id="fib_input" placeholder="Enter n ≤ 2¹⁹ and hit return" onkeypress="goFib(event, this.value)"></span>
+        <span class="fibonacci"><input type="text" id="fib_output" readonly="readonly"></span>
+    </div>
+    <br>
+    <div class="line">
+        <span class="fibonacci-list" style="padding-top: 5px; width: 200px; text-align: right;">fibonacci_list(n):</span>
+        <span class="fibonacci-list"><input type="text" id="fib_list_input" placeholder="Enter n ≤ 2¹² and hit return" onkeypress="goFibList(event, this.value)"></span>
+        <span class="fibonacci-list" style="padding-top: 8px;"><textarea id="fib_list_output" readonly="readonly"></textarea></span>
+    </div>
+</div>
 
 }
