@@ -16,6 +16,7 @@
     var currentId = 0
 
     function reset() {
+        newCommand()
         document.getElementById("fib_input_" + currentId).value = ""
         document.getElementById("fib_input_" + currentId).focus()
     }
@@ -59,18 +60,20 @@
     }
 
     function errorMessage() {
-        setOutput("Invalid command. Valid commands are fib n, fib_list n", true)
+        setOutput("Invalid command.", true)
     }
 
     function setOutput(text, isError) {
         document.getElementById("fib_output_" + currentId).innerHTML = text
         if (isError) {
-            document.getElementById("fib_output_" + currentId).style = "color: #ff2020;"
+            document.getElementById("fib_output_" + currentId).style = "color: #ff3333;"
         }
     }
 
     function newCommand() {
-        document.getElementById("fib_input_" + currentId).readOnly = true
+        if (currentId > 0) {
+            document.getElementById("fib_input_" + currentId).readOnly = true
+        }
 
         currentId++
 
@@ -104,16 +107,16 @@
 
 <h1 align="center">Welcome to the Fibonacci Server</h1>
 
+<p style="line-height: 20px;">
+    Valid commands are:<br><br>
+    <b>fib <i>n</i></b><br>
+    <b>fib_list <i>n</i></b><br>
+</p>
+<p style="line-height: 20px;">
+    Reload page to clear output.
+</p>
+
 <div id="main">
-    <div class="line">
-        <span class="fibonacci prompt">$ ~/fib_srv&gt;</span>
-        <span class="fibonacci">
-            <input type="text" id="fib_input_0" onkeypress="goFib(event, this.value)">
-        </span>
-    </div>
-    <div class="line output">
-        <span class="fibonacci" id="fib_output_0"></span>
-    </div>
 </div>
 
 </body>

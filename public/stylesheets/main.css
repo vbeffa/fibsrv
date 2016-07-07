@@ -16,13 +16,14 @@ body {
 }
 
 .fibonacci {
-    display: inline-block;
+    //display: inline-block;
     vertical-align: middle;
 }
 
 .prompt, .output {
-    margin-top: 3px;
+    //margin-top: 3px;
     border: none;
+    word-wrap: break-word;
 }
 
 .fibonacci-list {
@@ -32,10 +33,11 @@ body {
 
 input[type="text"] {
     //display: block;
-    //margin-left: 0px;
+    font-family: "Courier";
+    margin-left: 10px;
     height: 25px;
     background-color: #009900;
     color: white;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
 }
