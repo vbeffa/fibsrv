@@ -55,28 +55,6 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
       contentAsString(result.get) mustBe "input cannot be negative"
     }
 
-    "return cumulative Fibonacci lists" in {
-      contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/1")).get) mustBe "[\n  [0],\n  [0, 1]\n]"
-      contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/2")).get) mustBe "[\n  [0],\n  [0, 1],\n  [0, 1, 1]\n]"
-      contentAsString(route(app, FakeRequest(GET, "/cum_fib_list/3")).get) mustBe "[\n  [0],\n  [0, 1],\n  [0, 1, 1],\n  [0, 1, 1, 2]\n]"
-    }
-
-    "return 400 on negative input (cumulative Fibonacci lists)" in {
-      val result = route(app, FakeRequest(GET, "/cum_fib_list/-5"))
-      result.map(status(_)) mustBe Some(BAD_REQUEST)
-      contentAsString(result.get) mustBe "input cannot be negative"
-    }
-
-  }
-
-  "CountController" should {
-
-    "return an increasing count" in {
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "0"
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "1"
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "2"
-    }
-
   }
 
 }

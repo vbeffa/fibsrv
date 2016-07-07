@@ -11,13 +11,57 @@
 *@
 @main("Welcome to the Fibonacci Server") {
 
+<script language="JavaScript">
+    function goFib() {
+        goFibHelper("fib")
+    }
+
+    function goFibList() {
+        goFibHelper("fib_list")
+    }
+
+    function goFibHelper(op) {
+        url = "/" + op + "/" + document.getElementById(op + "_input").value;
+
+        var xhttp = new XMLHttpRequest()
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                document.getElementById(op + "_output").value = xhttp.responseText
+            }
+        };
+        xhttp.open("GET", url, true)
+        xhttp.send()
+    }
+</script>
+
 <h1>Welcome to the Fibonacci Server</h1>
 
-Example queries:
-<p>
-    <a href="/fib/5">fib(5)</a><br>
-    <a href="/fib_list/5">fib_list(5)</a><br>
-    <a href="/cum_fib_list/5">cum_fib_list(5)</a>
-</p>
+<table>
+    <tr valign="middle">
+        <td align="right">Fibonacci:</td>
+        <td><input type="text" id="fib_input"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><font size="-2">Min 0, Max 2<sup>19</sup> (262144)</font></td>
+    </tr>
+    <tr align="right" valign="top">
+        <td><button class="button" onclick="goFib()">Go Fib!</button></td>
+        <td><input type="text" id="fib_output" readonly="readonly"></td>
+    </tr>
+
+    <tr valign="middle">
+        <td>Fibonacci list:</td>
+        <td><input type="text" id="fib_list_input"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><font size="-2">Min 0, Max 2<sup>12</sup> (4096)</font></td>
+    </tr>
+    <tr align="right" valign="top">
+        <td><button class="button" onclick="goFibList()">Go Fib List!</button></td>
+        <td><textarea id="fib_list_output" readonly="readonly"></textarea></td>
+    </tr>
+</table>
 
 }
