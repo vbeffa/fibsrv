@@ -5,19 +5,24 @@ body {
     padding: 0px 20px 0px 20px;
 }
 
-table {
-    border: none;
-    border-spacing: 10px;
-}
-
 #main {
     overflow: auto;
     width: 100%;
+    //border: 1px solid white;
+}
+
+.line {
+    //border: 1px solid white;
 }
 
 .fibonacci {
     display: inline-block;
     vertical-align: middle;
+}
+
+.prompt, .output {
+    margin-top: 3px;
+    border: none;
 }
 
 .fibonacci-list {
@@ -26,28 +31,11 @@ table {
 }
 
 input[type="text"] {
-    display: block;
-    margin: 0;
+    //display: block;
+    //margin-left: 0px;
     height: 25px;
     background-color: #009900;
     color: white;
     border: none;
-}
-
-#fib_output {
-    width: 600px;
-    height: 35px;
-    margin-left: 10px;
-    border: none;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-top: 20px;
-}
-
-#fib_list_output {
-    width: 600px;
-    height: 400px;
-    margin-left: 10px;
-    border: none;
-    overflow: auto;
+    font-size: 14px;
 }

@@ -11,36 +11,94 @@
 *@
 @main("Welcome to the Fibonacci Server") {
 
-<body onload="clearInputs()">
+<body onload="reset()">
 <script language="JavaScript">
-    function clearInputs() {
-        document.getElementById("fib_input").value = ""
-        document.getElementById("fib_list_input").value = ""
+    var currentId = 0
+
+    function reset() {
+        document.getElementById("fib_input_" + currentId).value = ""
+        document.getElementById("fib_input_" + currentId).focus()
     }
 
     function goFib(event, text) {
         if (event && event.keyCode == 13 && text != "") {
-            goFibHelper("fib")
+            clearOutput()
+            n = text.split(" ")[1]
+            if (text.startsWith("fib ") && text.split(" ").length == 2 && is_numeric(n)) {
+                goFibHelper("fib", n)
+            } else if (text.startsWith("fib_list ") && text.split(" ").length == 2 && is_numeric(n)) {
+                goFibHelper("fib_list", n)
+            } else {
+                errorMessage()
+                newCommand()
+            }
         }
     }
 
-    function goFibList(event, text) {
-        if (event && event.keyCode == 13 && text != "") {
-            goFibHelper("fib_list")
-        }
+    function is_numeric(str){
+        return /^-?\d+$/.test(str);
     }
 
-    function goFibHelper(op) {
-        url = "/" + op + "/" + document.getElementById(op + "_input").value;
+    function goFibHelper(op, n) {
+        url = "/" + op + "/" + n;
 
         var xhttp = new XMLHttpRequest()
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4) {
-                document.getElementById(op + "_output").innerHTML = xhttp.responseText
+                setOutput(xhttp.responseText, false)
+                newCommand()
             }
         };
         xhttp.open("GET", url, true)
         xhttp.send()
+    }
+
+    function clearOutput() {
+        document.getElementById("fib_output_" + currentId).innerHTML = ""
+        document.getElementById("fib_output_" + currentId).style = "color: white;"
+    }
+
+    function errorMessage() {
+        setOutput("Invalid command. Valid commands are fib n, fib_list n", true)
+    }
+
+    function setOutput(text, isError) {
+        document.getElementById("fib_output_" + currentId).innerHTML = text
+        if (isError) {
+            document.getElementById("fib_output_" + currentId).style = "color: #ff2020;"
+        }
+    }
+
+    function newCommand() {
+        document.getElementById("fib_input_" + currentId).readOnly = true
+
+        currentId++
+
+        div = document.createElement("div")
+        div.setAttribute("class", "line")
+        span = document.createElement("span")
+        span.setAttribute("class", "fibonacci prompt")
+        span.innerHTML = "$ ~/fib_srv&gt;"
+        div.appendChild(span)
+        span = document.createElement("span")
+        span.setAttribute("class", "fibonacci")
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.id = "fib_input_" + currentId
+        input.addEventListener("keypress", function(event) { goFib(event, this.value) })
+        span.appendChild(input);
+        div.appendChild(span)
+        document.getElementById("main").appendChild(div)
+        document.getElementById("fib_input_" + currentId).focus()
+
+        div = document.createElement("div")
+        div.setAttribute("class", "line output")
+        span = document.createElement("span")
+        span.setAttribute("class", "fibonacci")
+        span.id = "fib_output_" + currentId
+        div.appendChild(span)
+        document.getElementById("main").appendChild(div)
     }
 </script>
 
@@ -48,15 +106,13 @@
 
 <div id="main">
     <div class="line">
-        <span class="fibonacci" style="width: 200px; text-align: right;">fibonacci(n):</span>
-        <span class="fibonacci"><input type="text" id="fib_input" placeholder="Enter n ≤ 2¹⁹ and hit return" onkeypress="goFib(event, this.value)"></span>
-        <span class="fibonacci" id="fib_output"></span>
+        <span class="fibonacci prompt">$ ~/fib_srv&gt;</span>
+        <span class="fibonacci">
+            <input type="text" id="fib_input_0" onkeypress="goFib(event, this.value)">
+        </span>
     </div>
-    <br>
-    <div class="line">
-        <span class="fibonacci-list" style="margin-top: 5px; width: 200px; text-align: right;">fibonacci_list(n):</span>
-        <span class="fibonacci-list"><input type="text" id="fib_list_input" placeholder="Enter n ≤ 2¹² and hit return" onkeypress="goFibList(event, this.value)"></span>
-        <span class="fibonacci-list" id="fib_list_output" style="margin-top: 5px;"></span>
+    <div class="line output">
+        <span class="fibonacci" id="fib_output_0"></span>
     </div>
 </div>
 
