@@ -15,10 +15,6 @@ table {
     width: 100%;
 }
 
-.line {
-    white-space: nowrap;
-}
-
 .fibonacci {
     display: inline-block;
     vertical-align: middle;
@@ -27,17 +23,6 @@ table {
 .fibonacci-list {
     display: inline-block;
     vertical-align: top;
-}
-
-.button {
-    background-color: #009900;
-    width: 100px;
-    border: 1px solid white;
-    color: white;
-    height: 28px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
 }
 
 input[type="text"] {
@@ -49,21 +34,20 @@ input[type="text"] {
     border: none;
 }
 
-textarea {
-    display: block;
-    margin: 0;
-    height: 400px;
-    background-color: #009900;
-    color: white;
-    border: none;
-}
-
 #fib_output {
     width: 600px;
+    height: 35px;
     margin-left: 10px;
+    border: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 20px;
 }
 
 #fib_list_output {
     width: 600px;
+    height: 400px;
     margin-left: 10px;
+    border: none;
+    overflow: auto;
 }

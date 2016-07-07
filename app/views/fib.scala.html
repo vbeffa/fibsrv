@@ -11,7 +11,13 @@
 *@
 @main("Welcome to the Fibonacci Server") {
 
+<body onload="clearInputs()">
 <script language="JavaScript">
+    function clearInputs() {
+        document.getElementById("fib_input").value = ""
+        document.getElementById("fib_list_input").value = ""
+    }
+
     function goFib(event, text) {
         if (event && event.keyCode == 13 && text != "") {
             goFibHelper("fib")
@@ -30,7 +36,7 @@
         var xhttp = new XMLHttpRequest()
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4) {
-                document.getElementById(op + "_output").value = xhttp.responseText
+                document.getElementById(op + "_output").innerHTML = xhttp.responseText
             }
         };
         xhttp.open("GET", url, true)
@@ -44,14 +50,15 @@
     <div class="line">
         <span class="fibonacci" style="width: 200px; text-align: right;">fibonacci(n):</span>
         <span class="fibonacci"><input type="text" id="fib_input" placeholder="Enter n ≤ 2¹⁹ and hit return" onkeypress="goFib(event, this.value)"></span>
-        <span class="fibonacci"><input type="text" id="fib_output" readonly="readonly"></span>
+        <span class="fibonacci" id="fib_output"></span>
     </div>
     <br>
     <div class="line">
-        <span class="fibonacci-list" style="padding-top: 5px; width: 200px; text-align: right;">fibonacci_list(n):</span>
+        <span class="fibonacci-list" style="margin-top: 5px; width: 200px; text-align: right;">fibonacci_list(n):</span>
         <span class="fibonacci-list"><input type="text" id="fib_list_input" placeholder="Enter n ≤ 2¹² and hit return" onkeypress="goFibList(event, this.value)"></span>
-        <span class="fibonacci-list" style="padding-top: 8px;"><textarea id="fib_list_output" readonly="readonly"></textarea></span>
+        <span class="fibonacci-list" id="fib_list_output" style="margin-top: 5px;"></span>
     </div>
 </div>
 
+</body>
 }
