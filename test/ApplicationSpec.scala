@@ -28,7 +28,6 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
     }
 
     "return Fibonacci numbers" in {
-      // http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html
       contentAsString(route(app, FakeRequest(GET, "/fib/5")).get) mustBe "5"
       contentAsString(route(app, FakeRequest(GET, "/fib/15")).get) mustBe "610"
       contentAsString(route(app, FakeRequest(GET, "/fib/25")).get) mustBe "75025"
@@ -37,7 +36,13 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
     "return 400 on negative input (Fibonacci numbers)" in {
       val result = route(app, FakeRequest(GET, "/fib/-5"))
       result.map(status(_)) mustBe Some(BAD_REQUEST)
-      contentAsString(result.get) mustBe "input cannot be negative"
+      contentAsString(result.get) mustBe "Input cannot be negative."
+    }
+
+    "return OK with a message on max input exceeded (Fibonacci numbers)" in {
+      val result = route(app, FakeRequest(GET, "/fib/" + Int.MaxValue))
+      result.map(status(_)) mustBe Some(OK)
+      contentAsString(result.get) mustBe "You are quite the eager beaver!"
     }
 
     "return Fibonacci lists" in {
@@ -48,7 +53,13 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
     "return 400 on negative input (Fibonacci lists)" in {
       val result = route(app, FakeRequest(GET, "/fib_list/-5"))
       result.map(status(_)) mustBe Some(BAD_REQUEST)
-      contentAsString(result.get) mustBe "input cannot be negative"
+      contentAsString(result.get) mustBe "Input cannot be negative."
+    }
+
+    "return OK with a message on max input exceeded (Fibonacci lists)" in {
+      val result = route(app, FakeRequest(GET, "/fib_list/" + Int.MaxValue))
+      result.map(status(_)) mustBe Some(OK)
+      contentAsString(result.get) mustBe "Woah there, Nelly!"
     }
 
   }
