@@ -1,7 +1,7 @@
-import com.google.inject.AbstractModule
 import java.time.Clock
 
-import services.{ApplicationTimer, AtomicCounter, Counter, FibSrv, Fibonacci}
+import com.google.inject.AbstractModule
+import services.{ApplicationTimer, FibonacciService, FibonacciServiceImpl}
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -21,10 +21,8 @@ class Module extends AbstractModule {
     // Ask Guice to create an instance of ApplicationTimer when the
     // application starts.
     bind(classOf[ApplicationTimer]).asEagerSingleton()
-    // Set AtomicCounter as the implementation for Counter.
-    bind(classOf[Counter]).to(classOf[AtomicCounter])
 
-    bind(classOf[FibSrv]).to(classOf[Fibonacci])
+    bind(classOf[FibonacciService]).to(classOf[FibonacciServiceImpl])
   }
 
 }

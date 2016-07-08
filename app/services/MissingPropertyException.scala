@@ -1,0 +1,3 @@
+package services
+
+class MissingPropertyException extends RuntimeException

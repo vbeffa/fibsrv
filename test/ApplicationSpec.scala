@@ -17,7 +17,7 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
 
   }
 
-  "HomeController" should {
+  "FibController" should {
 
     "render the index page" in {
       val home = route(app, FakeRequest(GET, "/")).get
@@ -26,10 +26,6 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
       contentType(home) mustBe Some("text/html")
       contentAsString(home) must include("Welcome to the Fibonacci Server")
     }
-
-  }
-
-  "FibController" should {
 
     "return Fibonacci numbers" in {
       // http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html

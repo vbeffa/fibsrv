@@ -8,21 +8,17 @@ body {
 #main {
     overflow: auto;
     width: 100%;
-    //border: 1px solid white;
-}
-
-.line {
-    //border: 1px solid white;
 }
 
 .fibonacci {
-    //display: inline-block;
     vertical-align: middle;
 }
 
 .prompt, .output {
-    //margin-top: 3px;
     border: none;
+}
+
+.output {
     word-wrap: break-word;
 }
 
@@ -32,7 +28,7 @@ body {
 }
 
 input[type="text"] {
-    //display: block;
+    width: 85%;
     font-family: "Courier";
     margin-left: 10px;
     height: 25px;
