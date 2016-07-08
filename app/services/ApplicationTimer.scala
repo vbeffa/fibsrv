@@ -31,7 +31,7 @@ class ApplicationTimer @Inject() (clock: Clock,
   // This code is called when the application starts.
   private val start: Instant = clock.instant
   Logger.info(s"Starting application at $start.")
-  if (app.mode != Mode.Test) {
+  if (app.mode == Mode.Prod) {
     logMemoryUsage()
     fibSrv.memoize()
     logMemoryUsage()
