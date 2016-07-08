@@ -3,7 +3,7 @@ package services
 import java.time.{Clock, Instant}
 import javax.inject._
 
-import play.api.Logger
+import play.api._
 import play.api.inject._
 
 import scala.concurrent.Future
@@ -23,14 +23,19 @@ import scala.concurrent.Future
  * application's [[ApplicationLifecycle]] to register a stop hook.
  */
 @Singleton
-class ApplicationTimer @Inject() (clock: Clock, appLifecycle: ApplicationLifecycle, fibSrv: FibonacciService) {
+class ApplicationTimer @Inject() (clock: Clock,
+                                  appLifecycle: ApplicationLifecycle,
+                                  app: Application,
+                                  fibSrv: FibonacciService) {
 
   // This code is called when the application starts.
   private val start: Instant = clock.instant
   Logger.info(s"Starting application at $start.")
-  logMemoryUsage()
-  fibSrv.memoize()
-  logMemoryUsage()
+  if (app.mode != Mode.Test) {
+    logMemoryUsage()
+    fibSrv.memoize()
+    logMemoryUsage()
+  }
 
   // When the application starts, register a stop hook with the
   // ApplicationLifecycle object. The code inside the stop hook will

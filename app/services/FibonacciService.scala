@@ -3,6 +3,7 @@ package services
 import javax.inject._
 
 import play.api.{Configuration, Logger}
+import util.MissingPropertyException
 
 trait FibonacciService {
   def memoize(): Unit
@@ -25,10 +26,10 @@ class FibonacciServiceImpl @Inject()(config: Configuration) extends FibonacciSer
     if (n < 0) throw new FibonacciIndexOutOfBoundsException(OverUnder.Under)
     if (n > maxFibInput) throw new FibonacciIndexOutOfBoundsException(OverUnder.Over)
 
-    Logger.info("size = " + fibs.size)
+    Logger.debug("size = " + fibs.size)
     while (n > fibs.size - 1) {
       if (fibs.size % 1000 == 0) {
-        Logger.info("Memoized fib(" + fibs.size + ")")
+        Logger.debug("Memoized fib(" + fibs.size + ")")
       }
       fibs += fibs.size -> (fibs(fibs.size - 1) + fibs(fibs.size - 2))
     }
@@ -40,10 +41,10 @@ class FibonacciServiceImpl @Inject()(config: Configuration) extends FibonacciSer
     if (n < 0) throw new FibonacciIndexOutOfBoundsException(OverUnder.Under)
     if (n > maxFibListInput) throw new FibonacciIndexOutOfBoundsException(OverUnder.Over)
 
-    Logger.info("size = " + fibLists.size)
+    Logger.debug("size = " + fibLists.size)
     while (n > fibLists.size - 1) {
       if (fibs.size % 1000 == 0) {
-        Logger.info("Memoized fib_list(" + fibs.size + ")")
+        Logger.debug("Memoized fib_list(" + fibs.size + ")")
       }
       fibLists += fibLists.size -> (fibLists(fibLists.size - 1) :+ fib(fibLists.size))
     }
@@ -51,7 +52,8 @@ class FibonacciServiceImpl @Inject()(config: Configuration) extends FibonacciSer
     fibLists(n)
   }
 
-  private def maxFibInput = config.getInt("fibonacci.max_fib_input").getOrElse(throw new MissingPropertyException)
+  private def maxFibInput = config.getInt("fibonacci.max_fib_input").getOrElse(
+    throw new MissingPropertyException("fibonacci.max_fib_input"))
   private def maxFibListInput = config.getInt("fibonacci.max_fib_list_input").getOrElse(
-    throw new MissingPropertyException)
+    throw new MissingPropertyException("fibonacci.max_fib_list_input"))
 }
