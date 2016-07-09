@@ -2,7 +2,7 @@
 * This template takes a single argument, a String containing a
 * message to display.
 *@
-@(message: String)
+@(message: String, maxFibInput: Int, maxFibListInput: Int)
 
 @*
 * Call the `main` template with two arguments. The first
@@ -109,8 +109,8 @@
 
 <p style="line-height: 20px;">
     Valid commands are:<br><br>
-    <b>fib <i>n</i></b> <font size="-1">(<i>n</i> &le; 2&times;10<sup>5</sup>)</font><br>
-    <b>fib_list <i>n</i></b> <font size="-1">(<i>n</i> &le; 5&times;10<sup>3</sup>)</font><br>
+    <b>fib <i>n</i></b> <font size="-1">(<i>n</i> &le; @maxFibInput)</font><br>
+    <b>fib_list <i>n</i></b> <font size="-1">(<i>n</i> &le; @maxFibListInput)</font><br>
 </p>
 <p style="line-height: 20px;">
     Reload page to clear output.

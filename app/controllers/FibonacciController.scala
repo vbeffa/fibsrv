@@ -2,13 +2,13 @@ package controllers
 
 import javax.inject._
 
-import play.api.{Configuration, Logger}
 import play.api.mvc._
-import services.{FibonacciIndexOutOfBoundsException, FibonacciService, OverUnder}
-import util.MissingPropertyException
+import play.api.{Configuration, Logger}
+import services.FibonacciService
+import util.{ConfigUtils, MissingPropertyException}
 
 @Singleton
-class FibonacciController @Inject()(fibSrv: FibonacciService, config: Configuration) extends Controller {
+class FibonacciController @Inject()(fibSrv: FibonacciService, implicit val config: Configuration) extends Controller {
   final val NegativeInputMessage = config.getString("fibonacci.negative_input_message").getOrElse(
     throw new MissingPropertyException("fibonacci.negative_input_message"))
   final val MaxFibInputExceededMessage = config.getString("fibonacci.max_fib_input_exceeded_mesage").getOrElse(
@@ -18,38 +18,42 @@ class FibonacciController @Inject()(fibSrv: FibonacciService, config: Configurat
 
   def index = Action {
     Logger.info("Handling request for index.")
-    Ok(views.html.index("Welcome to the Fibonacci Server."))
+    Ok(views.html.index("Welcome to the Fibonacci Server.", ConfigUtils.maxFibInput, ConfigUtils.maxFibListInput))
   }
 
   def fib(n: Int) = Action {
     Logger.info("Handling request for fib(" + n + ").")
-    try {
-      val fib = fibSrv.fib(n)
-      Logger.info("Returning " + fib + ".")
-      Ok(fib.toString)
-    } catch {
-      case e: FibonacciIndexOutOfBoundsException =>
-        e.overUnder match {
-          case OverUnder.Under => BadRequest(NegativeInputMessage)
-          case OverUnder.Over => Ok(MaxFibInputExceededMessage)
-        }
-      case _: Throwable => InternalServerError
+
+    if (n > ConfigUtils.maxFibInput) {
+      Logger.info("Request exceeded max input " + ConfigUtils.maxFibInput)
+      Ok(MaxFibInputExceededMessage)
+    } else {
+      try {
+        val fib = fibSrv.fib(n)
+        Logger.info("Returning " + fib + ".")
+        Ok(fib.toString)
+      } catch {
+        case e: IndexOutOfBoundsException => BadRequest(NegativeInputMessage)
+        case _: Throwable => InternalServerError
+      }
     }
   }
 
   def fib_list(n: Int) = Action {
     Logger.info("Handling request for fib_list(" + n + ").")
-    try {
-      val fibList = fibSrv.fibList(n)
-      Logger.info("Returning fib_list(" + n + ").")
-      Ok("[" + fibList.mkString(", ") + "]")
-    } catch {
-      case e: FibonacciIndexOutOfBoundsException =>
-        e.overUnder match {
-          case OverUnder.Under => BadRequest(NegativeInputMessage)
-          case OverUnder.Over => Ok(MaxFibListInputExceededMessage)
-        }
-      case _: Throwable => InternalServerError
+
+    if (n > ConfigUtils.maxFibListInput) {
+      Logger.info("Request exceeded max input " + ConfigUtils.maxFibListInput)
+      Ok(MaxFibListInputExceededMessage)
+    } else {
+      try {
+        val fibList = fibSrv.fibList(n)
+        Logger.info("Returning fib_list(" + n + ").")
+        Ok("[" + fibList.mkString(", ") + "]")
+      } catch {
+        case e: IndexOutOfBoundsException => BadRequest(NegativeInputMessage)
+        case _: Throwable => InternalServerError
+      }
     }
   }
 

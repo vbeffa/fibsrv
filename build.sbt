@@ -4,7 +4,7 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.7" // 2.11.8 doesn't work, creates many sbt instances and server doesn't start
 
 libraryDependencies ++= Seq(
   ws,
