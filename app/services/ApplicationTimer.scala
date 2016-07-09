@@ -33,9 +33,11 @@ class ApplicationTimer @Inject()(clock: Clock,
   // This code is called when the application starts.
   private val start: Instant = clock.instant
   Logger.info(s"Starting application at $start.")
-  LoggingUtils.logMemoryUsage()
-  fibSrv.memoize(ConfigUtils.maxFibInput, ConfigUtils.maxFibListInput)
-  LoggingUtils.logMemoryUsage()
+  if (app.mode != Mode.Test) {
+    LoggingUtils.logMemoryUsage()
+    fibSrv.memoize(ConfigUtils.maxFibInput, ConfigUtils.maxFibListInput)
+    LoggingUtils.logMemoryUsage()
+  }
 
   // When the application starts, register a stop hook with the
   // ApplicationLifecycle object. The code inside the stop hook will
