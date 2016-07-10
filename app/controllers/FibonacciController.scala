@@ -2,13 +2,20 @@ package controllers
 
 import javax.inject._
 
+import akka.stream.scaladsl.Source
+import play.api.libs.iteratee.Enumerator
+import play.api.libs.streams.Streams
 import play.api.mvc._
 import play.api.{Configuration, Logger}
 import services.FibonacciService
 import util.{ConfigUtils, MissingPropertyException}
 
+import scala.concurrent.ExecutionContext
+
 @Singleton
-class FibonacciController @Inject()(fibSrv: FibonacciService, implicit val config: Configuration) extends Controller {
+class FibonacciController @Inject()(fibSrv: FibonacciService,
+                                    implicit val config: Configuration,
+                                    implicit val ec: ExecutionContext) extends Controller {
   final val NegativeInputMessage = config.getString("fibonacci.negative_input_message").getOrElse(
     throw new MissingPropertyException("fibonacci.negative_input_message"))
   final val MaxFibInputExceededMessage = config.getString("fibonacci.max_fib_input_exceeded_mesage").getOrElse(
@@ -39,22 +46,18 @@ class FibonacciController @Inject()(fibSrv: FibonacciService, implicit val confi
     }
   }
 
-  def fib_list(n: Int) = Action {
+  def fibList(n: Int) = Action {
     Logger.info("Handling request for fib_list(" + n + ").")
 
-    if (n > ConfigUtils.maxFibListInput) {
-      Logger.info("Request exceeded max input " + ConfigUtils.maxFibListInput)
-      Ok(MaxFibListInputExceededMessage)
-    } else {
-      try {
-        val fibList = fibSrv.fibList(n)
-        Logger.info("Returning fib_list(" + n + ").")
-        Ok("[" + fibList.mkString(", ") + "]")
-      } catch {
-        case e: IndexOutOfBoundsException => BadRequest(NegativeInputMessage)
-        case _: Throwable => InternalServerError
-      }
+    try {
+      val data = fibSrv.fibList(n)
+      val dataContent: Enumerator[Array[Byte]] = Enumerator.fromStream(data)
+      val source = Source.fromPublisher(Streams.enumeratorToPublisher(dataContent))
+
+      Ok.chunked(source).as("text/plain")
+    } catch {
+      case e: IndexOutOfBoundsException => BadRequest(NegativeInputMessage)
+      case _: Throwable => InternalServerError
     }
   }
-
 }

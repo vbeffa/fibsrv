@@ -45,21 +45,10 @@ class ApplicationSpec extends PlaySpec with OneAppPerTest {
       contentAsString(result.get) mustBe "You are quite the eager beaver!"
     }
 
-    "return Fibonacci lists" in {
-      contentAsString(route(app, FakeRequest(GET, "/fib_list/5")).get) mustBe "[0, 1, 1, 2, 3, 5]"
-      contentAsString(route(app, FakeRequest(GET, "/fib_list/10")).get) mustBe "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55]"
-    }
-
     "return 400 on negative input (Fibonacci lists)" in {
       val result = route(app, FakeRequest(GET, "/fib_list/-5"))
       result.map(status(_)) mustBe Some(BAD_REQUEST)
       contentAsString(result.get) mustBe "Input cannot be negative."
-    }
-
-    "return OK with a message on max input exceeded (Fibonacci lists)" in {
-      val result = route(app, FakeRequest(GET, "/fib_list/" + Int.MaxValue))
-      result.map(status(_)) mustBe Some(OK)
-      contentAsString(result.get) mustBe "Woah there, Nelly!"
     }
 
   }

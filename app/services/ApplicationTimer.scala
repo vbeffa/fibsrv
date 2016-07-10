@@ -35,7 +35,7 @@ class ApplicationTimer @Inject()(clock: Clock,
   Logger.info(s"Starting application at $start.")
   if (app.mode != Mode.Test) {
     LoggingUtils.logMemoryUsage()
-    fibSrv.memoize(ConfigUtils.maxFibInput, ConfigUtils.maxFibListInput)
+    fibSrv.memoize(ConfigUtils.maxFibInput)
     LoggingUtils.logMemoryUsage()
   }
 
