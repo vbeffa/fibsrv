@@ -1,5 +1,9 @@
 # Fibonacci Server
 
+## Reference Implementation
+
+https://fibsrv.herokuapp.com
+
 ## Requirements
 
 1. Scala 2.11.7
@@ -23,7 +27,7 @@
 
 1. `activator test` to run unit and integration tests
 2. `./concurrent_test.sh` to run concurrent load test (against reference
-    implementation deployed to Heroku)
+    implementation)
 
 ## Info
 
