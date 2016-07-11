@@ -13,7 +13,9 @@ https://fibsrv.herokuapp.com
 
 1. Clone https://github.com/vbeffa/fibsrv.
 2. If deploying to production:
+
    `activator playGenerateSecret`
+
    The `APPLICATION_SECRET` environment variable will need to be set in
    the production environment with the result of that command.
 
