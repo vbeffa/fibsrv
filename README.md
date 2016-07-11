@@ -31,6 +31,7 @@ This project provides a simple REST API to generate Fibonacci numbers
 and lists of Fibonacci numbers. The calls are:
 
 `GET /fib/:n`
+
 `GET /fib_list/:n`
 
 The approach taken was to maximize both `n` and throughput (concurrent
