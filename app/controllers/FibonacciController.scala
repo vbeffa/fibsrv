@@ -8,7 +8,7 @@ import play.api.libs.streams.Streams
 import play.api.mvc._
 import play.api.{Configuration, Logger}
 import services.FibonacciService
-import util.{ConfigUtils, MissingPropertyException}
+import util.{Config, MissingPropertyException}
 
 import scala.concurrent.ExecutionContext
 
@@ -16,33 +16,25 @@ import scala.concurrent.ExecutionContext
 class FibonacciController @Inject()(fibSrv: FibonacciService,
                                     implicit val config: Configuration,
                                     implicit val ec: ExecutionContext) extends Controller {
-  final val NegativeInputMessage = config.getString("fibonacci.negative_input_message").getOrElse(
-    throw new MissingPropertyException("fibonacci.negative_input_message"))
-  final val MaxFibInputExceededMessage = config.getString("fibonacci.max_fib_input_exceeded_mesage").getOrElse(
-    throw new MissingPropertyException("fibonacci.max_fib_input_exceeded_mesage"))
-  final val MaxFibListInputExceededMessage = config.getString("fibonacci.max_fib_list_input_exceeded_mesage").getOrElse(
-    throw new MissingPropertyException("fibonacci.max_fib_list_input_exceeded_mesage"))
+  final val NegativeInputMessage = Config.getString("fibonacci.negative_input_message")
+  final val MaxFibInputExceededMessage = Config.getString("fibonacci.browser.max_fib_input_exceeded_message")
+  final val MaxFibListInputExceededMessage = Config.getString("fibonacci.browser.max_fib_list_input_exceeded_message")
 
   def index = Action {
     Logger.info("Handling request for index.")
-    Ok(views.html.index("Welcome to the Fibonacci Server.", ConfigUtils.maxFibInput, ConfigUtils.maxFibListInput))
+    Ok(views.html.index("Welcome to the Fibonacci Server.", Config.maxFibInput, Config.maxFibListInput))
   }
 
   def fib(n: Int) = Action {
     Logger.info("Handling request for fib(" + n + ").")
 
-    if (n > ConfigUtils.maxFibInput) {
-      Logger.info("Request exceeded max input " + ConfigUtils.maxFibInput)
-      Ok(MaxFibInputExceededMessage)
-    } else {
-      try {
-        val fib = fibSrv.fib(n)
-        Logger.info("Returning " + fib + ".")
-        Ok(fib.toString)
-      } catch {
-        case e: IndexOutOfBoundsException => BadRequest(NegativeInputMessage)
-        case _: Throwable => InternalServerError
-      }
+    try {
+      val fib = fibSrv.fib(n)
+      Logger.info("Returning " + fib + ".")
+      Ok(fib.toString)
+    } catch {
+      case e: IndexOutOfBoundsException => BadRequest(NegativeInputMessage)
+      case _: Throwable => InternalServerError
     }
   }
 
@@ -60,4 +52,22 @@ class FibonacciController @Inject()(fibSrv: FibonacciService,
       case _: Throwable => InternalServerError
     }
   }
+
+  def browserFib(n: Int) =
+    if (n > Config.maxFibInput)
+      Action {
+        Logger.info("Request exceeded max input " + Config.maxFibInput)
+        Ok(MaxFibInputExceededMessage)
+      }
+    else
+      fib(n)
+
+  def browserFibList(n: Int) =
+    if (n > Config.maxFibListInput)
+      Action {
+        Logger.info("Request exceeded max input " + Config.maxFibListInput)
+        Ok(MaxFibListInputExceededMessage)
+      }
+    else
+      fibList(n)
 }

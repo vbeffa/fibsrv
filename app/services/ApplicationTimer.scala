@@ -5,7 +5,7 @@ import javax.inject._
 
 import play.api._
 import play.api.inject._
-import util.{ConfigUtils, LoggingUtils}
+import util.{Config, LoggingUtils}
 
 import scala.concurrent.Future
 
@@ -33,11 +33,7 @@ class ApplicationTimer @Inject()(clock: Clock,
   // This code is called when the application starts.
   private val start: Instant = clock.instant
   Logger.info(s"Starting application at $start.")
-  if (app.mode != Mode.Test) {
-    LoggingUtils.logMemoryUsage()
-    fibSrv.memoize(ConfigUtils.maxFibInput)
-    LoggingUtils.logMemoryUsage()
-  }
+  LoggingUtils.logMemoryUsage()
 
   // When the application starts, register a stop hook with the
   // ApplicationLifecycle object. The code inside the stop hook will

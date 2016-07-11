@@ -2,9 +2,7 @@ package services
 
 import java.io.InputStream
 
-import play.api.Configuration
-
-class FibInputStream(val n: Int, val fibSrv: FibonacciService) extends InputStream {
+class FibInputStream(val n: Int, val memoizer: FibMemoizer) extends InputStream {
   var i = 0
   var token = 1
   var pos = 0
@@ -12,6 +10,7 @@ class FibInputStream(val n: Int, val fibSrv: FibonacciService) extends InputStre
   var newline = false
   var end = false
   var bytes: Array[Byte] = Array()
+  val generator = new FibGenerator(memoizer)
 
   override def read(): Int = {
     if (start) {
@@ -27,7 +26,7 @@ class FibInputStream(val n: Int, val fibSrv: FibonacciService) extends InputStre
     token match {
       case 1 =>
         if (pos == 0) {
-          bytes = fibSrv.fib(i).toString.getBytes
+          bytes = (if (i < memoizer.upTo) memoizer.fib(i) else generator.next).toString.getBytes
         }
         if (pos < bytes.length - 1) {
           pos += 1

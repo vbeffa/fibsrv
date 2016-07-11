@@ -6,6 +6,8 @@
 GET     /                           controllers.FibonacciController.index
 GET     /fib/:n                     controllers.FibonacciController.fib(n: Int)
 GET     /fib_list/:n                controllers.FibonacciController.fibList(n: Int)
+GET     /browser/fib/:n             controllers.FibonacciController.browserFib(n: Int)
+GET     /browser/fib_list/:n        controllers.FibonacciController.browserFibList(n: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
