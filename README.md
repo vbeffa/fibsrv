@@ -12,9 +12,10 @@ https://fibsrv.herokuapp.com
 ## Setup
 
 1. Clone https://github.com/vbeffa/fibsrv.
-2. If deploying to production: `activator playGenerateSecret`. The
-   `APPLICATION_SECRET` environment variable will need to be set in the
-   production environment with the result of that command.
+2. If deploying to production:
+   `activator playGenerateSecret`
+   The `APPLICATION_SECRET` environment variable will need to be set in
+   the production environment with the result of that command.
 
 ## Running
 
@@ -45,6 +46,8 @@ to `fib_list` are handled with a stream (see [FibInputStream.scala](https://gith
 This allows for (theoretically) arbitrarily large (up to `n = Int.MaxValue`)
 lists to be generated, as only _fib(n - 2)_, _fib(n - 1)_, and _fib(n)_
 are stored in memory at a time while _fib(n)_ is streamed to the client.
+
+Max values and error messages can be configured in [application.conf](https://github.com/vbeffa/fibsrv/blob/master/conf/application.conf).
 
 ## Known Issues
 
