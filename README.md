@@ -38,10 +38,22 @@ and lists of Fibonacci numbers. The calls are:
 
 `GET /fib_list/:n`
 
-The approach taken was to maximize both `n` and throughput (concurrent
+The approach taken was to maximize both _n_ and throughput (concurrent
 requests). Thus only a subset of the numbers in the sequence are
 memoized. The rest are (re)computed as needed. Additionally, requests
 to `fib_list` are handled with a stream (see [FibInputStream.scala](https://github.com/vbeffa/fibsrv/blob/master/app/services/FibInputStream.scala)).
 This allows for (theoretically) arbitrarily large (up to `n = Int.MaxValue`)
-lists to be generated, as only `fib(n - 2)`, `fib(n - 1)`, and `fib(n)`
-are stored in memory at a time while `fib(n)` is streamed to the client.
+lists to be generated, as only _fib(n - 2)_, _fib(n - 1)_, and _fib(n)_
+are stored in memory at a time while _fib(n)_ is streamed to the client.
+
+## Known Issues
+
+1. Reference implementation has minimal memory, thus querying for larger
+_n_ values may not succeed.
+
+## Notes
+
+1. A slight change to the problem requirements was made: `GET /fib_list/:n`
+   will return **up to** _fib(n)_ rather than the first _n_ Fibonacci
+   numbers. This allows the last element in the list returned to equal
+   _fib(n)_.
