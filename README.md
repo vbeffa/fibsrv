@@ -1,12 +1,22 @@
 # Fibonacci Server
 
-1. brew install scala
-2. brew install activator
+## Requirements
 
+1. Scala 2.11.7
+2. sbt 0.13.11
 
-1. application secret
+## Setup
 
-export JAVA_OPTS="-Xmx2G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xss2M"
+1. clone https://github.com/vbeffa/fibsrv
+2. `activator playGenerateSecret` (if deploying to production, will need
+    to set `APPLICATION_SECRET` environment variable)
 
-run -Dconfig.file=/Users/vbeffa/projects/fibsrv/conf/application-dev.conf
+## Running
 
+1. `activator run`
+
+## Testing
+
+1. `activator test` to run unit and integration tests
+2. `./concurrent_test.sh` to run concurrent load test (against reference
+    implementation deployed to Heroku)
