@@ -5,7 +5,7 @@ import javax.inject._
 
 import play.api._
 import play.api.inject._
-import util.{Config, LoggingUtils}
+import util.{Config, Logging}
 
 import scala.concurrent.Future
 
@@ -33,7 +33,7 @@ class ApplicationTimer @Inject()(clock: Clock,
   // This code is called when the application starts.
   private val start: Instant = clock.instant
   Logger.info(s"Starting application at $start.")
-  LoggingUtils.logMemoryUsage()
+  Logging.logMemoryUsage()
 
   // When the application starts, register a stop hook with the
   // ApplicationLifecycle object. The code inside the stop hook will

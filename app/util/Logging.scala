@@ -2,7 +2,7 @@ package util
 
 import play.api.Logger
 
-object LoggingUtils {
+object Logging {
 
   def logMemoryUsage() = {
     val mb = 1024*1024
