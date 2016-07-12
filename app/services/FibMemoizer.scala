@@ -3,6 +3,11 @@ package services
 import play.api.Logger
 import util.Logging
 
+/**
+  * Memoizer for Fibonacci numbers. Memoizes up to [[upTo]].
+  *
+  * @param upTo the last Fibonacci number to memoize
+  */
 protected class FibMemoizer(val upTo: Int) {
   var fibs: Map[Int, BigInt] = Map(0 -> 0, 1 -> 1)
 

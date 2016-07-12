@@ -1,8 +1,10 @@
+import javax.inject.Singleton
+
 import play.api.http.HttpErrorHandler
-import play.api.mvc._
-import play.api.mvc.Results._
-import scala.concurrent._
-import javax.inject.Singleton;
+import play.api.mvc.RequestHeader
+import play.api.mvc.Results.{InternalServerError, Status}
+
+import scala.concurrent.Future
 
 @Singleton
 class ErrorHandler extends HttpErrorHandler {

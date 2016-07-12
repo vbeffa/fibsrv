@@ -8,7 +8,7 @@ import play.api.libs.streams.Streams
 import play.api.mvc._
 import play.api.{Configuration, Logger}
 import services.FibonacciService
-import util.{Config, MissingPropertyException}
+import util.Config
 
 import scala.concurrent.ExecutionContext
 
