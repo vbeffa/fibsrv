@@ -41,7 +41,7 @@
     }
 
     function goFibHelper(op, n) {
-        url = "/browser/" + op + "/" + n;
+        url = "/browser/" + op + "/" + n
 
         var xhttp = new XMLHttpRequest()
         xhttp.onreadystatechange = function() {
@@ -49,7 +49,7 @@
                 setOutput(xhttp.responseText, xhttp.status != 200)
                 newCommand()
             }
-        };
+        }
         xhttp.open("GET", url, true)
         xhttp.send()
     }

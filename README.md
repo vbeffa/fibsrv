@@ -15,14 +15,24 @@ memoized. The rest are (re)computed as needed. Additionally, requests
 to `fib_list` are handled with a stream (see [FibInputStream.scala](https://github.com/vbeffa/fibsrv/blob/master/app/services/FibInputStream.scala)).
 This allows for (theoretically) arbitrarily large (up to `n = Int.MaxValue`)
 lists to be generated, as only _fib(n - 2)_, _fib(n - 1)_, and _fib(n)_
-are stored in memory at a time while _fib(n)_ is streamed to the client.
+are stored in memory at any one time while _fib(n)_ is streamed to the client.
 
 Max values and error messages can be configured in [application.conf](https://github.com/vbeffa/fibsrv/blob/master/conf/application.conf).
 
 Note: a slight change to the problem requirements was made: `GET /fib_list/:n`
 will return **up to** _fib(n)_ rather than the first _n_ Fibonacci
 numbers. This allows the last element in the list returned to equal
-_fib(n)_.
+_fib(n)_. Thus:
+
+```
+fib(0) = 0	fib_list(0) = [0]
+fib(1) = 1	fib_list(1) = [0, 1]
+fib(2) = 1	fib_list(2) = [0, 1, 1]
+fib(3) = 2	fib_list(3) = [0, 1, 1, 2]
+fib(4) = 3	fib_list(4) = [0, 1, 1, 2, 3]
+fib(5) = 5	fib_list(5) = [0, 1, 1, 2, 3, 5]
+```
+
 
 ## Reference Implementation
 
@@ -46,7 +56,8 @@ https://fibsrv.herokuapp.com
 ## Running
 
 1. `activator run`
-2. Open http://localhost:9000/ to test with browser.
+2. Open http://localhost:9000/ to test with browser. The page functions
+   as a rudimentary interactive shell.
 3. Try `curl http://localhost:9000/fib/100` or `curl http://localhost:9000/fib_list/20`
    to test with curl.
 
@@ -59,4 +70,6 @@ https://fibsrv.herokuapp.com
 ## Known Issues
 
 1. Reference implementation has minimal memory, thus querying for larger
-_n_ values may not succeed.
+   _n_ values may not succeed.
+2. Inputing `n > Int.MaxValue` is not handled on the client side but on
+   the server. Ideally a check would be made before submitting a request.
