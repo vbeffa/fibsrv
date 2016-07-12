@@ -71,6 +71,6 @@ https://fibsrv.herokuapp.com
 
 1. Reference implementation has minimal memory, thus querying for larger
    _n_ values may not succeed.
-2. Inputing `fib(n)` or `fib_list(n)` in the browser shell where
+2. Inputing `fib n` or `fib_list n` in the browser shell where
    `n > Int.MaxValue` is not handled on the client side but on the server.
     Ideally a check would be made before submitting a request.
