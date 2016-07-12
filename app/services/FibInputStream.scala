@@ -2,15 +2,18 @@ package services
 
 import java.io.InputStream
 
-class FibInputStream(val n: Int, val memoizer: FibMemoizer) extends InputStream {
-  var i = 0
-  var token = 1
-  var pos = 0
-  var start = true
-  var newline = false
-  var end = false
-  var bytes: Array[Byte] = Array()
+protected class FibInputStream(val n: Int, val memoizer: FibMemoizer) extends InputStream {
+  if (n < 0) throw new IndexOutOfBoundsException
+
   val generator = new FibGenerator(memoizer)
+
+  var i = 0
+  var token = 1 // 1 = ith number, 2 = ',', 3 = ']'
+  var bytes: Array[Byte] = Array()
+  var pos = 0 // position within bytes
+  var start = true // for initial '['
+  var newline = false // for final newline
+  var end = false
 
   override def read(): Int = {
     if (start) {

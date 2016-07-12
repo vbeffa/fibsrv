@@ -1,8 +1,7 @@
-package unit.properties
+package services
 
 import org.scalacheck.Prop._
 import org.scalacheck.{Gen, Properties}
-import services.{FibGenerator, FibMemoizer}
 
 object FibGeneratorSpecification extends Properties("FibGenerator") {
 

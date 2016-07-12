@@ -56,7 +56,7 @@ class FibonacciController @Inject()(fibSrv: FibonacciService,
   def browserFib(n: Int) =
     if (n > Config.maxFibInput)
       Action {
-        Logger.info("Request exceeded max input " + Config.maxFibInput)
+        Logger.info("Request exceeded max input " + Config.maxFibInput + ".")
         Ok(MaxFibInputExceededMessage)
       }
     else
@@ -65,7 +65,7 @@ class FibonacciController @Inject()(fibSrv: FibonacciService,
   def browserFibList(n: Int) =
     if (n > Config.maxFibListInput)
       Action {
-        Logger.info("Request exceeded max input " + Config.maxFibListInput)
+        Logger.info("Request exceeded max input " + Config.maxFibListInput + ".")
         Ok(MaxFibListInputExceededMessage)
       }
     else

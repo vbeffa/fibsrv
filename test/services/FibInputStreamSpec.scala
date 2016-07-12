@@ -1,7 +1,6 @@
-package unit
+package services
 
 import org.scalatest.{MustMatchers, WordSpec}
-import services.{FibInputStream, FibMemoizer}
 
 class FibInputStreamSpec extends WordSpec with MustMatchers {
   val memoizer = new FibMemoizer(1000)

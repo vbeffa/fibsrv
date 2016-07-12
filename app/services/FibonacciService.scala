@@ -31,9 +31,5 @@ class FibonacciServiceImpl @Inject()(implicit config: Configuration) extends Fib
     }
   }
 
-  override def fibList(n: Int) = {
-    if (n < 0) throw new IndexOutOfBoundsException
-
-    new FibInputStream(n, memoizer)
-  }
+  override def fibList(n: Int) = new FibInputStream(n, memoizer)
 }

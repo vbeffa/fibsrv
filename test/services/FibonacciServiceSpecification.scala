@@ -1,9 +1,8 @@
-package unit.properties
+package services
 
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Gen, Properties}
 import play.api.Configuration
-import services.FibonacciServiceImpl
 
 object FibonacciServiceSpecification extends Properties("FibonacciService") {
   implicit val config = Configuration(

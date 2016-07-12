@@ -1,6 +1,6 @@
 package services
 
-class FibGenerator(memoizer: FibMemoizer) {
+protected class FibGenerator(memoizer: FibMemoizer) {
   var i1 = memoizer.fib(memoizer.upTo - 2)
   var i2 = memoizer.fib(memoizer.upTo - 1)
 

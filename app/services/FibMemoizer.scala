@@ -3,7 +3,7 @@ package services
 import play.api.Logger
 import util.Logging
 
-class FibMemoizer(val upTo: Int) {
+protected class FibMemoizer(val upTo: Int) {
   var fibs: Map[Int, BigInt] = Map(0 -> 0, 1 -> 1)
 
   if (upTo < 2) throw new IllegalArgumentException("Must memoize up to at least n = 2.")

@@ -1,8 +1,7 @@
-package unit.properties
+package services
 
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Gen, Properties}
-import services.FibMemoizer
 
 object FibMemoizerSpecification extends Properties("FibMemoizer") {
 
