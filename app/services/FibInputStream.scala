@@ -43,8 +43,8 @@ protected class FibInputStream(val n: Int, val memoizer: FibMemoizer) extends In
           if (i == n) {
             s_pos = 3
             ']'
-          }
-          else ','
+          } else
+            ','
         case 3 =>
           token = 1
           i += 1
